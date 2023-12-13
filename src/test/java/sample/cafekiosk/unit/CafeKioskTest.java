@@ -3,9 +3,11 @@ package sample.cafekiosk.unit;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
 import sample.cafekiosk.beverage.Americano;
 import sample.cafekiosk.beverage.Latte;
+import sample.cafekiosk.order.Order;
 
 class CafeKioskTest {
 
@@ -70,6 +72,31 @@ class CafeKioskTest {
 
     cafeKiosk.clear();
     assertThat(cafeKiosk.getBeverages()).isEmpty();
+  }
+
+  @Test
+  void createOrder() {
+    CafeKiosk cafeKiosk = new CafeKiosk();
+    Americano americano = new Americano();
+
+    cafeKiosk.add(americano);
+
+    Order order = cafeKiosk.createOrder(LocalDateTime.of(2023, 1, 17, 10, 9));
+
+    assertThat(order.getBeverages()).hasSize(1);
+    assertThat(order.getBeverages().get(0)).isEqualTo(americano);
+  }
+
+  @Test
+  void createOrderOutsideOpenTime() {
+    CafeKiosk cafeKiosk = new CafeKiosk();
+    Americano americano = new Americano();
+
+    cafeKiosk.add(americano);
+
+    assertThatThrownBy(() -> cafeKiosk.createOrder(LocalDateTime.of(2023, 1, 17, 9, 59)))
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessage("shop is closed");
   }
 
 }
