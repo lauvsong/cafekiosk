@@ -13,7 +13,7 @@ public class ProductController {
 
   private final ProductService productService;
 
-  @GetMapping("/api/products")
+  @GetMapping("/api/v1/products")
   public List<ProductResponse> getSellingProducts() {
     return productService.getSellingProducts();
   }
