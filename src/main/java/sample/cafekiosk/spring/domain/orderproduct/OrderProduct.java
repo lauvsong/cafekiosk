@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sample.cafekiosk.spring.domain.BaseEntity;
@@ -28,7 +29,16 @@ public class OrderProduct extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   private Product product;
 
-  public static Object create(Order order, Product product) {
+  @Builder
+  private OrderProduct(Order order, Product product) {
+    this.order = order;
+    this.product = product;
+  }
 
+  public static OrderProduct create(Order order, Product product) {
+    return OrderProduct.builder()
+        .order(order)
+        .product(product)
+        .build();
   }
 }
