@@ -3,7 +3,7 @@ package sample.cafekiosk.spring.api.service.product;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import sample.cafekiosk.spring.api.controller.product.response.ProductCreateRequest;
+import sample.cafekiosk.spring.api.service.product.request.ProductCreateServiceRequest;
 import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
 import sample.cafekiosk.spring.domain.product.Product;
 import sample.cafekiosk.spring.domain.product.ProductRepository;
@@ -24,7 +24,7 @@ public class ProductService {
         .toList();
   }
 
-  public ProductResponse createProduct(ProductCreateRequest request) {
+  public ProductResponse createProduct(ProductCreateServiceRequest request) {
     String nextProductNumber = createNextProductNumber();
 
     Product product = request.toEntity(nextProductNumber);
